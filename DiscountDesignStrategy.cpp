@@ -1,10 +1,13 @@
 #include <iostream>
+
 using namespace std;
 
 class Discount {
 public:
     virtual double apply(double price) = 0;
-    virtual ~Discount() {}
+    virtual ~Discount() {
+        //--
+    }
 };
 
 class NoDiscount : public Discount {
@@ -28,12 +31,13 @@ public:
     }
 };
 
-
 class DiscountCalculator {
 private:
     Discount* discount;
 public:
-    DiscountCalculator() : discount(nullptr) {}
+    DiscountCalculator() : discount(nullptr) {
+        //--
+    }
 
     void setDiscount(Discount* newDiscount) {
         delete discount;
@@ -57,10 +61,10 @@ public:
 int main() {
     DiscountCalculator calc;
     int choice;
-    double price;
+    double price, finalPrice, discountAmount;
 
     do {
-        cout << "\nDiscount Calculator | Enter an option.\n";
+        cout << "\n=== Discount Calculator | Enter an option to continue. ===\n";
         cout << "1. No Discount\n";
         cout << "2. 10% Discount\n";
         cout << "3. 20% Discount\n";
@@ -76,15 +80,24 @@ int main() {
         switch (choice) {
             case 1:
                 calc.setDiscount(new NoDiscount());
-                cout << "Final Price: " << calc.calculate(price) << endl;
+                finalPrice = calc.calculate(price);
+                discountAmount = price - finalPrice;
+                cout << "No discount applied." << endl;
+                cout << "Final Price: ₱" << finalPrice << endl;
                 break;
             case 2:
                 calc.setDiscount(new TenPercentDiscount());
-                cout << "Final Price: " << calc.calculate(price) << endl;
+                finalPrice = calc.calculate(price);
+                discountAmount = price - finalPrice;
+                cout << "Discount Applied: ₱" << discountAmount << endl;
+                cout << "Final Price: ₱" << finalPrice << endl;
                 break;
             case 3:
                 calc.setDiscount(new TwentyPercentDiscount());
-                cout << "Final Price: " << calc.calculate(price) << endl;
+                finalPrice = calc.calculate(price);
+                discountAmount = price - finalPrice;
+                cout << "Discount Applied: ₱" << discountAmount << endl;
+                cout << "Final Price: ₱" << finalPrice << endl;
                 break;
             case 4:
                 cout << "Exiting. Thank you!" << endl;
@@ -95,5 +108,6 @@ int main() {
         }
 
     } while (choice != 4);
+
     return 0;
 }
